@@ -6,15 +6,15 @@
 <title>En Camino de Ser Millonarios (progreso)</title>
 <style>
   :root {
-    --bg0:#07101f;
-    --bg1:#0d1528;
-    --bg2:#172240;
+    --bg0:#07061e;
+    --bg1:#0e0b3a;
+    --bg2:#18155c;
     --ink:#eef3ff;
-    --muted:#c4cbe0;
-    --glass:rgba(255,255,255,.11);
-    --glass2:rgba(255,255,255,.07);
-    --line:rgba(255,255,255,.16);
-    --shadow:0 34px 100px rgba(2,7,18,.52);
+    --muted:#b8c4e8;
+    --glass:rgba(255,255,255,.17);
+    --glass2:rgba(255,255,255,.10);
+    --line:rgba(255,255,255,.24);
+    --shadow:0 34px 100px rgba(2,4,20,.62);
     --radius:32px;
     --accent:#a8c0ff;
     --accent2:#95f2de;
@@ -29,19 +29,21 @@
     font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     color:var(--ink);
     background:
-      radial-gradient(circle at 15% 18%, rgba(168,192,255,.28), transparent 20%),
-      radial-gradient(circle at 82% 14%, rgba(149,242,222,.20), transparent 20%),
-      radial-gradient(circle at 72% 78%, rgba(255,191,216,.12), transparent 16%),
-      linear-gradient(180deg, #080e19 0%, #0b1324 52%, #090d18 100%);
+      radial-gradient(ellipse at 18% 15%, rgba(130,100,255,.60), transparent 45%),
+      radial-gradient(ellipse at 82% 85%, rgba(80,55,210,.50), transparent 45%),
+      radial-gradient(ellipse at 62% 0%, rgba(170,130,255,.35), transparent 38%),
+      radial-gradient(ellipse at 35% 70%, rgba(100,80,230,.25), transparent 35%),
+      linear-gradient(160deg, #07061e 0%, #100d4a 35%, #1c1578 65%, #0a0d38 100%);
   }
   a{color:inherit;text-decoration:none}
   .wrap{max-width:1700px;margin:0 auto;padding:18px}
   .frame{
     border-radius:38px;
-    border:1px solid rgba(255,255,255,.14);
-    background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-    box-shadow:var(--shadow);
-    backdrop-filter: blur(26px) saturate(155%);
+    border:1px solid rgba(255,255,255,.24);
+    background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.07));
+    box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.32);
+    backdrop-filter: blur(32px) saturate(200%);
+    -webkit-backdrop-filter: blur(32px) saturate(200%);
     overflow:hidden;
     position:relative;
   }
@@ -305,6 +307,21 @@
   @media (prefers-reduced-motion: reduce){
     *,*::before,*::after{animation:none !important; transition:none !important; scroll-behavior:auto !important;}
   }
+  /* --- Liquid Glass Password Modal --- */
+  .pw-overlay{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(4,3,18,.78);backdrop-filter:blur(30px) saturate(170%);-webkit-backdrop-filter:blur(30px) saturate(170%);opacity:0;pointer-events:none;transition:opacity .38s ease}
+  .pw-overlay.visible{opacity:1;pointer-events:all}
+  .pw-card{width:min(420px,90vw);padding:44px 38px 38px;border-radius:36px;background:linear-gradient(160deg, rgba(255,255,255,.20), rgba(255,255,255,.09));border:1px solid rgba(255,255,255,.28);box-shadow:0 44px 96px rgba(0,0,0,.58),inset 0 1px 0 rgba(255,255,255,.40);backdrop-filter:blur(36px) saturate(190%);-webkit-backdrop-filter:blur(36px) saturate(190%);text-align:center;transform:scale(.86) translateY(22px);transition:transform .44s cubic-bezier(.2,.9,.2,1)}
+  .pw-overlay.visible .pw-card{transform:scale(1) translateY(0)}
+  .pw-icon{font-size:2.8rem;margin-bottom:18px;filter:drop-shadow(0 4px 16px rgba(168,192,255,.55))}
+  .pw-title{margin:0 0 8px;font-size:1.52rem;font-weight:900;color:#fff;letter-spacing:-.025em}
+  .pw-sub{margin:0 0 28px;color:var(--muted);font-size:.94rem;font-weight:600;line-height:1.55}
+  .pw-input{width:100%;padding:16px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.11);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;font-size:1rem;font-weight:600;font-family:inherit;outline:none;text-align:center;letter-spacing:.1em;transition:border-color .22s ease,box-shadow .22s ease,background .22s ease;box-shadow:inset 0 1px 0 rgba(255,255,255,.16);display:block;margin-bottom:12px}
+  .pw-input::placeholder{color:rgba(255,255,255,.38);letter-spacing:.03em}
+  .pw-input:focus{border-color:rgba(168,192,255,.68);background:rgba(255,255,255,.16);box-shadow:0 0 0 3.5px rgba(168,192,255,.22),inset 0 1px 0 rgba(255,255,255,.22)}
+  .pw-error{min-height:22px;color:rgba(255,130,150,.95);font-size:.88rem;font-weight:700;margin-bottom:14px}
+  .pw-btn{width:100%;padding:16px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:linear-gradient(135deg, rgba(168,192,255,.40), rgba(149,242,222,.26));color:#fff;font-size:1rem;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.42);backdrop-filter:blur(10px);transition:transform .22s ease,box-shadow .22s ease,background .22s ease;letter-spacing:.03em}
+  .pw-btn:hover{transform:translateY(-3px) scale(1.025);box-shadow:0 20px 46px rgba(0,0,0,.44),inset 0 1px 0 rgba(255,255,255,.52);background:linear-gradient(135deg, rgba(168,192,255,.54), rgba(149,242,222,.38))}
+  .pw-btn:active{transform:scale(.97)}
 </style>
 </head>
 <body>
@@ -329,7 +346,7 @@
       </section>
 
       <div class="grid">
-        <a class="summary-card" href="Dashboard.html" aria-label="Abrir página completa">
+        <a class="summary-card" href="Dashboard.html" data-protected aria-label="Abrir página completa">
           <div class="summary-top">
             <div class="summary-title">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
@@ -355,5 +372,52 @@
       <div class="footer">Toca la barra para abrir el manual completo en la segunda página.</div>
     </div>
   </div>
+<div id="pwModal" class="pw-overlay" role="dialog" aria-modal="true" aria-label="Acceso protegido">
+  <div class="pw-card">
+    <div class="pw-icon">🔒</div>
+    <h2 class="pw-title">Acceso al Dashboard</h2>
+    <p class="pw-sub">Ingresa la contraseña para continuar</p>
+    <input id="pwInput" class="pw-input" type="password" placeholder="Contraseña" autocomplete="off" />
+    <div id="pwError" class="pw-error"></div>
+    <button class="pw-btn" id="pwSubmit">Entrar</button>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY="Nico.120206";
+  var ov=document.getElementById('pwModal');
+  var inp=document.getElementById('pwInput');
+  var err=document.getElementById('pwError');
+  var btn=document.getElementById('pwSubmit');
+  document.querySelectorAll('a[data-protected]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      ov.classList.add('visible');
+      setTimeout(function(){inp.focus();},360);
+    });
+  });
+  function go(){
+    if(inp.value===KEY){
+      ov.classList.remove('visible');
+      err.textContent='';
+      window.location.href='Dashboard.html';
+    }else{
+      err.textContent='Contraseña incorrecta ✕';
+      inp.value='';
+      inp.focus();
+      inp.style.borderColor='rgba(255,100,120,.75)';
+      setTimeout(function(){inp.style.borderColor='';},900);
+    }
+  }
+  btn.addEventListener('click',go);
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter')go();});
+  ov.addEventListener('click',function(e){
+    if(e.target===ov){ov.classList.remove('visible');err.textContent='';inp.value='';}
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&ov.classList.contains('visible')){ov.classList.remove('visible');err.textContent='';inp.value='';}
+  });
+})();
+</script>
 </body>
 </html>
