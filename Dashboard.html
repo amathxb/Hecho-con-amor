@@ -40,33 +40,30 @@
   }
   a { color:inherit; text-decoration:none; }
   .shell {
-    display:grid;
-    grid-template-columns: 292px minmax(0,1fr);
-    gap:18px;
     padding:18px;
     max-width:1700px;
     margin:0 auto;
-    transition: grid-template-columns .28s ease;
-  }
-  .shell.compact {
-    grid-template-columns: 92px minmax(0,1fr);
   }
   .sidebar {
-    position:sticky;
-    top:18px;
-    height: calc(100vh - 36px);
-    overflow:auto;
-    padding:16px;
-    border:1px solid rgba(255,255,255,.14);
-    background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.07));
-    backdrop-filter: blur(24px) saturate(150%);
-    border-radius: 32px;
-    box-shadow: var(--shadow);
-    transition: padding .24s ease, border-radius .24s ease;
+    position:fixed;
+    top:0;
+    left:0;
+    height:100vh;
+    width:300px;
+    z-index:500;
+    overflow-y:auto;
+    padding:20px 16px 32px;
+    border-right:1px solid rgba(255,255,255,.20);
+    border-radius:0 28px 28px 0;
+    background: linear-gradient(180deg, rgba(20,15,80,.95), rgba(10,8,42,.97));
+    backdrop-filter: blur(36px) saturate(200%);
+    -webkit-backdrop-filter: blur(36px) saturate(200%);
+    box-shadow: 8px 0 48px rgba(0,0,0,.55), inset -1px 0 0 rgba(255,255,255,.10);
+    transform: translateX(-110%);
+    transition: transform .38s cubic-bezier(.2,.9,.2,1);
   }
-  .shell.compact .sidebar {
-    padding:12px 10px;
-    border-radius: 26px;
+  .sidebar.open {
+    transform: translateX(0);
   }
   .sidebar-head {
     cursor:pointer;
@@ -113,18 +110,12 @@
     font-size:.9rem;
     line-height:1.35;
   }
-  .shell.compact .brand-copy {
-    display:none;
-  }
   .sidebar-tip {
     margin-top:12px;
     font-size:.88rem;
     color:rgba(234,241,255,.72);
     position:relative;
     z-index:1;
-  }
-  .shell.compact .sidebar-tip {
-    display:none;
   }
   .nav-list {
     display:flex;
@@ -183,28 +174,14 @@
     color:rgba(234,241,255,.62);
     white-space:nowrap;
   }
-  .shell.compact .nav-item {
-    width:48px;
-    height:48px;
-    border-radius:16px;
-    padding:0;
-    justify-content:center;
-    margin:0 auto;
-  }
-  .shell.compact .nav-item .nav-label,
-  .shell.compact .nav-item .nav-state {
-    display:none;
-  }
-  .shell.compact .nav-item .nav-ic {
-    width:32px;height:32px;
-  }
   .main {
     min-width:0;
     width:min(100%, 1240px);
-    justify-self:center;
+    margin:0 auto;
     display:flex;
     flex-direction:column;
     gap:18px;
+    padding-top:74px;
   }
   .glass {
     background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.08));
@@ -991,30 +968,6 @@
       grid-template-columns: 1fr 1fr;
     }
   }
-  @media (max-width: 980px) {
-    .shell, .shell.compact {
-      grid-template-columns:1fr;
-    }
-    .sidebar {
-      position:relative;
-      top:auto;
-      height:auto;
-    }
-    .shell.compact .nav-item {
-      width:100%;
-      height:auto;
-      padding:12px 13px;
-      justify-content:flex-start;
-    }
-    .shell.compact .nav-item .nav-label,
-    .shell.compact .nav-item .nav-state {
-      display:block;
-    }
-    .shell.compact .brand-copy,
-    .shell.compact .sidebar-tip {
-      display:block;
-    }
-  }
 
   /* Elevated interactions */
   .glass, .section, .nav-item, .chip, .note-panel, .access-card, .slide-img-wrap, .summary-card, .summary-link, .final-note {
@@ -1139,6 +1092,47 @@
     color: rgba(42,35,64,.9);
   }
 
+  /* --- Hamburger & Drawer Overlay --- */
+  .hamburger {
+    position:fixed;
+    top:18px;
+    left:18px;
+    z-index:600;
+    width:50px;
+    height:50px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.26);
+    background: linear-gradient(135deg, rgba(255,255,255,.20), rgba(255,255,255,.09));
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    box-shadow: 0 8px 28px rgba(0,0,0,.44), inset 0 1px 0 rgba(255,255,255,.32);
+    display:grid;
+    place-items:center;
+    cursor:pointer;
+    transition: transform .22s ease, box-shadow .22s ease, background .22s ease;
+    color: var(--ink);
+  }
+  .hamburger:hover {
+    transform: scale(1.1);
+    box-shadow: 0 14px 38px rgba(0,0,0,.52);
+    background: linear-gradient(135deg, rgba(255,255,255,.28), rgba(255,255,255,.14));
+  }
+  .hamburger svg { display:block; }
+  .drawer-overlay {
+    position:fixed;
+    inset:0;
+    z-index:400;
+    background: rgba(4,3,18,.58);
+    backdrop-filter: blur(5px) saturate(140%);
+    -webkit-backdrop-filter: blur(5px) saturate(140%);
+    opacity:0;
+    pointer-events:none;
+    transition: opacity .34s ease;
+  }
+  .drawer-overlay.visible {
+    opacity:1;
+    pointer-events:all;
+  }
   /* Final SIM warning */
   .final-note.sticky-sim {
     background:
@@ -1164,6 +1158,14 @@
 </style>
 </head>
 <body>
+<button class="hamburger" id="drawerToggle" aria-label="Abrir menú">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+    <line x1="3" y1="6" x2="21" y2="6"/>
+    <line x1="3" y1="12" x2="21" y2="12"/>
+    <line x1="3" y1="18" x2="21" y2="18"/>
+  </svg>
+</button>
+<div class="drawer-overlay" id="drawerOverlay"></div>
 <div class="shell" id="shell">
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-head" id="sidebarToggle" title="Haz click para compactar o expandir la barra">
@@ -1881,15 +1883,29 @@
 
 
 <script>
-  const shell = document.getElementById('shell');
-  const sidebarToggle = document.getElementById('sidebarToggle');
+  const sidebar = document.getElementById('sidebar');
+  const drawerToggle = document.getElementById('drawerToggle');
+  const drawerOverlay = document.getElementById('drawerOverlay');
   const imgModal = document.getElementById('imgModal');
   const modalImg = document.getElementById('modalImg');
   const closeModal = document.getElementById('closeModal');
 
-  sidebarToggle.addEventListener('click', () => {
-    shell.classList.toggle('compact');
+  function openDrawer() {
+    sidebar.classList.add('open');
+    drawerOverlay.classList.add('visible');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    sidebar.classList.remove('open');
+    drawerOverlay.classList.remove('visible');
+    document.body.style.overflow = '';
+  }
+
+  drawerToggle.addEventListener('click', () => {
+    sidebar.classList.contains('open') ? closeDrawer() : openDrawer();
   });
+  drawerOverlay.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
 
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', () => {
@@ -1898,15 +1914,14 @@
       const filterBanner = document.getElementById('filterBanner');
       const allNavItems = document.querySelectorAll('.nav-item');
 
-      // If this item is already active → deactivate (show all)
       if (item.classList.contains('active')) {
         item.classList.remove('active');
         allSections.forEach(s => s.classList.remove('filter-hidden'));
         filterBanner.classList.remove('visible');
+        closeDrawer();
         return;
       }
 
-      // Activate this item, hide others
       allNavItems.forEach(n => n.classList.remove('active'));
       item.classList.add('active');
       filterBanner.classList.add('visible');
@@ -1920,6 +1935,8 @@
           s.classList.add('filter-hidden');
         }
       });
+
+      closeDrawer();
     });
   });
 
